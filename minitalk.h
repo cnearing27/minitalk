@@ -7,5 +7,6 @@
 # include "ft_printf/ft_printf.h"
 
 long long int	ft_atoi(const char	*str);
+char			*ft_itoa(int n);
 
 #endif
