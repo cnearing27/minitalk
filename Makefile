@@ -1,4 +1,17 @@
-SRCS_S		=	server_files/server.c 
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/03/15 13:44:07 by cnearing          #+#    #+#              #
+#    Updated: 2022/03/15 13:44:08 by cnearing         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SRCS_S		=	server_files/server.c \
+				server_files/ft_itoa.c
 
 SRCS_C		=	client_files/client.c \
 				client_files/ft_atoi.c

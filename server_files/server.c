@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/15 13:44:09 by cnearing          #+#    #+#             */
+/*   Updated: 2022/03/15 13:44:10 by cnearing         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minitalk.h"
 
 void	clear(int *len, int *bit, char *byte)
@@ -7,19 +19,11 @@ void	clear(int *len, int *bit, char *byte)
 	if (bit)
 		*bit = 0;
 	if (byte)
-		*byte = NULL;
-}
-
-void	out(int pid, int checker, char	*buf)
-{
-	ft_printf("%s", buf);
-	if (!checker)
-		kill(pid, SIGUSR2);
+		*byte = 0;
 }
 
 void	handle_signal(int sig, siginfo_t	*info, void	*context)
 {
-	static char	buf[128];
 	static char	byte;
 	static int	curr_bit;
 	static int	len;
@@ -35,11 +39,11 @@ void	handle_signal(int sig, siginfo_t	*info, void	*context)
 	{
 		if (byte == 0)
 			checker = 0;
-		buf[len++] = byte;
+		ft_printf("%c", byte);
+		if (!checker)
+			kill(info->si_pid, SIGUSR2);
 		clear (&curr_bit, 0, &byte);
 	}
-	if (len == 127 || !checker)
-		out(info->si_pid, checker, buf);
 	usleep(50);
 	kill(info->si_pid, SIGUSR1);
 }
@@ -50,11 +54,11 @@ int	main(void)
 	struct sigaction	proc;
 
 	server_pid = getpid();
+	ft_printf("PID = %d\n", server_pid);
 	proc.sa_sigaction = handle_signal;
 	proc.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &proc, NULL);
 	sigaction(SIGUSR2, &proc, NULL);
-	ft_printf("PID = %d\n", server_pid);
 	while (1)
 		pause();
 	return (0);
